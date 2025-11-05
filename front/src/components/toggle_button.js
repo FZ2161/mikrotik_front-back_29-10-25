@@ -1,15 +1,25 @@
 import * as React from 'react';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+
 
 export default function ToggleButtons() {
     const [alignment, setAlignment] = React.useState(null);
     const [isActive, setIsActive] = useState(null);
     const [host, setHost] = useState('');
     const [count, setCount] = useState(1);
+    const [pingData, setPingData] = useState(null); 
 
     const handleAlignment = (event, newAlignment) => {
         if (newAlignment !== null) {
@@ -34,49 +44,78 @@ export default function ToggleButtons() {
                 setIsActive(true);
 
             console.log(json);
+            setPingData(json);
 
         } catch (error) {
             setIsActive(false);
+            setPingData(null);
         }
     }
 
-
+    const minRtt = pingData && (pingData[pingData.length - 1]['min-rtt'] ?? "-");
+    const maxRtt = pingData && (pingData[pingData.length - 1]['max-rtt'] ?? "-");
     return (
-        <>
-            <h2 className='text-green'>{isActive != null ? (isActive ? `${host} connected` : `${host} not connected`) : 'click to check connection'}</h2>
-            <ToggleButtonGroup
-                value={alignment}
-                exclusive
-                onChange={handleAlignment}
-                aria-label="text alignment"
-            >
-                <ToggleButton value="left" aria-label="left aligned">
-                    google.com
-                </ToggleButton>
-                <ToggleButton value="center" aria-label="centered">
-                    wp.pl
-                </ToggleButton>
-                <ToggleButton value="right" aria-label="right aligned">
-                    onet.pl
-                </ToggleButton>
-            </ToggleButtonGroup>
-
+        <div>
             <Box sx={{ width: 300 }}>
+                <h2 className='text-green'>{isActive != null ? (isActive ? `${host} connected` : `${host} not connected`) : 'click to check connection'}</h2>
+                <ToggleButtonGroup
+                    value={alignment}
+                    exclusive
+                    onChange={handleAlignment}
+                    aria-label="text alignment"
+                >
+                    <ToggleButton value="left" aria-label="left aligned">
+                        google.com
+                    </ToggleButton>
+                    <ToggleButton value="center" aria-label="centered">
+                        wp.pl
+                    </ToggleButton>
+                    <ToggleButton value="right" aria-label="right aligned">
+                        onet.pl
+                    </ToggleButton>
+                </ToggleButtonGroup>
+
+
                 <Slider
                     value={count}
                     onChange={(e, newVal) => {
                         setCount(newVal);
                     }}
                     valueLabelDisplay="auto"
-                    shiftStep={1}
                     step={1}
                     marks
                     min={1}
                     max={4}
                 />
+
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>min</TableCell>
+                                <TableCell align="right">max</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {/* {rows.map((row) => ( */}
+                                <TableRow
+                                    // key={row.name}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {minRtt != null ? minRtt : '-'}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {maxRtt != null ? maxRtt : '-'}
+                                    </TableCell>
+                                </TableRow>
+                            {/* ))} */}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Box>
 
-        </>
+        </div>
     );
 }
 
