@@ -44,6 +44,33 @@ app.get('/tool/internet', async (req, res) => {
 })
 
 
+app.get('/firewall', async (req, res) => {
+  try {
+    const m_res = await fetch(`http://${mikrotik_host}/rest/ip/firewall/filter`, {
+      method: 'GET',
+      headers: {
+        "Authorization": "Basic YWRtaW46R2xvbm9qYWQx",
+        "content-type": "application/json",
+      }
+    });
+
+    const json = await m_res.json();
+
+    const mapped = json.map(item => ({
+      id: item[".id"] || "",
+      empty: "",
+      action: item.action || "",
+      chain: item.chain || "",
+      comment: item.comment || "",  
+    }));
+
+    res.json(mapped);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 
 app.listen(3005, () => {
     console.log('running on port 3005');

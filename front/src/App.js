@@ -8,6 +8,8 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import React from 'react';
 import Internet_connection from './components/check_internet';
+import ToggleButtons from './components/toggle_button';
+import ItemThree from './components/item_three';
 
 
 function App() {
@@ -33,8 +35,13 @@ function App() {
           <TabPanel value="1">
             <Internet_connection />
           </TabPanel>
-          <TabPanel value="2">Item Two</TabPanel>
-          <TabPanel value="3">Item Three</TabPanel>
+          <TabPanel value="2">
+            {/* toggle buttons */}
+            <ToggleButtons />
+          </TabPanel>
+          <TabPanel value="3">
+            <ItemThree />
+          </TabPanel>
         </TabContext>
       </Box>
       <M_status />

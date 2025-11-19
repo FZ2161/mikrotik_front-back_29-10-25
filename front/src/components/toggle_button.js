@@ -57,7 +57,7 @@ export default function ToggleButtons() {
     return (
         <div>
             <Box sx={{ width: 300 }}>
-                <h2 className='text-green'>{isActive != null ? (isActive ? `${host} connected` : `${host} not connected`) : 'click to check connection'}</h2>
+                <h2 className='text-green'>{isActive != null ? (isActive ? `${host} connected` : `${host} not connected`) : 'click to check'}</h2>
                 <ToggleButtonGroup
                     value={alignment}
                     exclusive

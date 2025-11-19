@@ -4,6 +4,7 @@ import { useState } from "react";
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import ToggleButtons from "./toggle_button";
 
 function Internet_connection() {
@@ -33,14 +34,21 @@ function Internet_connection() {
     const [internetConnection, setInternetConnection] = useState(true);
 
     return (
-        <div>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            // minHeight: '60vh',
+            gap: 2,
+            p: 2
+        }}>
             <Stack spacing={2} direction="row">
                 <Button color={internetConnection ? "success" : "error"} onClick={getData} variant="contained" >
                     Check internet
                 </Button>
             </Stack>
-            <ToggleButtons />           
-        </div>
+        </Box>
     )
 }
 
