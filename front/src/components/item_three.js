@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -20,11 +19,20 @@ export default function ItemThree() {
     const [selectedIds, setSelectedIds] = useState([]);
 
     const toggleSelected = (id) => {
-        setSelectedIds((prevSelectedIds) =>
-            prevSelectedIds.includes(id)
-                ? prevSelectedIds.filter((selectedId) => selectedId !== id)
-                : [...prevSelectedIds, id]
-        );
+        // setSelectedIds((prevSelectedIds) =>
+        //     prevSelectedIds.includes(id)
+        //         ? prevSelectedIds.filter((selectedId) => selectedId !== id)
+        //         : [...prevSelectedIds, id]
+        // );
+        
+        //set toggle button selected based on if it is enabled or disabled
+        setSelectedIds((prevSelectedIds) => {
+            if (prevSelectedIds.includes(id)) {
+                return prevSelectedIds.filter((selectedId) => selectedId !== id);
+            } else {
+                return [...prevSelectedIds, id];
+            }
+        });
     }
 
     const isSelected = (id) => selectedIds.includes(id);
@@ -44,10 +52,24 @@ export default function ItemThree() {
             console.error(error);
         }
     }
-
     useEffect(() => {
         getData();
     }, []);
+
+    //działa, ale nie ustawia toggle buttona od razu
+
+    const changeSelected = async (id) => {
+        try {
+            const url = `http://localhost:3005/firewall/${encodeURIComponent(id)}/enable/${isSelected(id) ? 0 : 1}`;
+            const response = await fetch(url);
+            const json = await response.json();
+            console.log("enable response", json);
+            getData();
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const isPositiveAction = (action) => {
         if (action === null || action === undefined) return false;
@@ -81,7 +103,10 @@ export default function ItemThree() {
                                             <ToggleButton
                                                 value="check"
                                                 selected={isSelected(row.id ?? idx)}
-                                                onChange={() => toggleSelected(row.id ?? idx)}
+                                                onChange={() => {
+                                                    toggleSelected(row.id ?? idx)
+                                                    changeSelected(row.id ?? null)
+                                                }}
                                             >
                                                 {isSelected(row.id ?? idx) ? 'On' : 'Off'}
                                             </ToggleButton>

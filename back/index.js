@@ -70,10 +70,10 @@ app.get('/firewall', async (req, res) => {
   }
 });
 
-app.get('/firewall/:id/enable', async (req, res) => {
+app.get('/firewall/:id/enable/:enable', async (req, res) => {
   try {
     const id = req.params.id;
-    const enable = req.body.enable;
+    const enable = req.params.enable == 1 ? true : false;
     const disabled = !enable;
 
     const m_url = `http://${mikrotik_host}/rest/ip/firewall/filter/${encodeURIComponent(id)}`;
@@ -93,7 +93,7 @@ app.get('/firewall/:id/enable', async (req, res) => {
 
 
     const json = await m_res.json();
-    res.send(json);
+    res.send({ success: true, response: json, disabled: disabled });
 
   } catch (err) {
     console.error(err);
