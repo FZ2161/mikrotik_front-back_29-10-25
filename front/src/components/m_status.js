@@ -36,7 +36,7 @@ export default function M_status() {
         getData();
         const intervalId = setInterval(() => {
             getData();
-        }, 2000);
+        }, 4000);
         return () => clearInterval(intervalId);
     }, []);
 

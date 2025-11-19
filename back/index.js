@@ -17,7 +17,7 @@ app.get('/status', async (req, res) => {
         }
     })
     const json = await m_res.json()
-    res.json(json)
+    res.send(json)
     console.log(json)
 })
 
@@ -39,7 +39,7 @@ app.get('/tool/internet', async (req, res) => {
         })  
     })
     const json = await m_res.json()
-    res.json(json)
+    res.send(json)
     console.log(json)
 })
 
@@ -64,8 +64,39 @@ app.get('/firewall', async (req, res) => {
       comment: item.comment || "",  
     }));
 
-    res.json(mapped);
+    res.send(mapped);
   } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/firewall/:id/enable', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const enable = req.body.enable;
+    const disabled = !enable;
+
+    const m_url = `http://${mikrotik_host}/rest/ip/firewall/filter/${encodeURIComponent(id)}`;
+    console.log("Mikrotik URL:", m_url);
+
+    const m_res = await fetch(m_url, {
+      method: 'PATCH',
+      headers: {
+        "Authorization": "Basic YWRtaW46R2xvbm9qYWQx",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        "disabled": disabled
+      })
+    });
+
+
+
+    const json = await m_res.json();
+    res.send(json);
+
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
