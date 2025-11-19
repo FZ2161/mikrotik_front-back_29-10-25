@@ -19,20 +19,13 @@ export default function ItemThree() {
     const [selectedIds, setSelectedIds] = useState([]);
 
     const toggleSelected = (id) => {
-        // setSelectedIds((prevSelectedIds) =>
-        //     prevSelectedIds.includes(id)
-        //         ? prevSelectedIds.filter((selectedId) => selectedId !== id)
-        //         : [...prevSelectedIds, id]
-        // );
+        setSelectedIds((prevSelectedIds) =>
+            prevSelectedIds.includes(id)
+                ? prevSelectedIds.filter((selectedId) => selectedId !== id)
+                : [...prevSelectedIds, id]
+        );
         
         //set toggle button selected based on if it is enabled or disabled
-        setSelectedIds((prevSelectedIds) => {
-            if (prevSelectedIds.includes(id)) {
-                return prevSelectedIds.filter((selectedId) => selectedId !== id);
-            } else {
-                return [...prevSelectedIds, id];
-            }
-        });
     }
 
     const isSelected = (id) => selectedIds.includes(id);
