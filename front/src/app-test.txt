@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 import React from 'react';
 import Internet_connection from './components/check_internet';
 import ToggleButtons from './components/toggle_button';
@@ -14,8 +13,6 @@ import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-
 
 
 function App() {
-  
-  // const [value, setValue] = React.useState('1');
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -34,7 +31,7 @@ function App() {
   const value = pathToValue[location.pathname] || '1';
 
   const handleChange = (event, newValue) => {
-        navigate(valueToPath[newValue]);
+    navigate(valueToPath[newValue]);
   };
 
   return (

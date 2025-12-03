@@ -6,7 +6,9 @@ app.use(cors());
 
 //endpoint pobierający i wysyłający dane z mikrotika
 
-const mikrotik_host = "172.16.15.177"
+// const mikrotik_host = "172.16.15.177"
+const mikrotik_host = "192.168..209"
+
 
 app.get('/status', async (req, res) => {
 
